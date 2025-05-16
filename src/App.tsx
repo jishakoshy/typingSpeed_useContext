@@ -1,5 +1,43 @@
+// import React from 'react';
+// import { ThemeProvider } from './components/ThemeContext';
+// import Header from './components/Header';
+// import ThemeButton from './components/ThemeButton';
+
+
+// import { UserProvider } from './components/UserContext';
+// import Profile from './components/profile';
+// import Login from './components/login';
+
+
+// const App = () => {
+//   return (
+//     <div className="container">
+//       <ThemeProvider>
+//         <Header />
+//         <ThemeButton />
+//       </ThemeProvider>
+      
+//       <UserProvider>
+//         <h1>useContext 2</h1>
+//         <Login />
+//         <Profile />
+//     </UserProvider>
+      
+      
+//     </div>
+//   );
+// };
+
+// export default App;
+
+
+
+
 import React, { useState, useEffect, useRef } from 'react';
 import './App.css';
+import { TypingProvider } from './components/TypingContext';
+import  TypingStates  from './components/TypingStats';
+
 
 const STARTING_TIME = 10;
 
@@ -27,6 +65,7 @@ const App: React.FC = () => {
     setText('');
     setWordCount(0);
     setWpm(0);
+    
     if (textBoxRef.current) {
       textBoxRef.current.disabled = false;
       textBoxRef.current.focus();
@@ -54,19 +93,25 @@ const App: React.FC = () => {
   }, [timeRemaining, isTimeRunning]);
 
   return (
+     
     <div className="container">
-      <h1>Typing Speed Tester</h1>
-      <textarea
-        ref={textBoxRef}
-        disabled={!isTimeRunning}
-        value={text}
-        onChange={handleChange}
-        placeholder="Start typing when you press Start"
-      />
-      <h4>Time Remaining: {timeRemaining}s</h4>
-      <button onClick={startGame} disabled={isTimeRunning}>Start</button>
-      <h2>Word Count: {wordCount}</h2>
-      <h2>Typing Speed: {wpm} WPM</h2>
+      <TypingProvider wpm={wpm}>
+        <h1>Typing Speed Tester</h1>
+        <textarea
+          ref={textBoxRef}
+          disabled={!isTimeRunning}
+          value={text}
+          onChange={handleChange}
+          placeholder="Start typing when you press Start"
+        />
+        <h4>Time Remaining: {timeRemaining}s</h4>
+        <button onClick={startGame} disabled={isTimeRunning}>Start</button>
+        <h2>Word Count: {wordCount}</h2>
+
+        <h2>Typing Speed : {wpm} wpm</h2>
+
+        <TypingStates/>
+      </TypingProvider>
     </div>
   );
 };
